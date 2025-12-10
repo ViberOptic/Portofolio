@@ -1,11 +1,14 @@
 'use client'
+
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Github, ExternalLink, Cpu, Database } from "lucide-react";
+
 import { supabase } from "@/lib/supabase";
+import { Project } from "@/types"; // Import interface Project disini
 import Navbar from "@/components/Navbar";
 import GlassCard from "@/components/ui/GlassCard";
 import SplashScreen from "@/components/shared/SplashScreen";
-import { motion } from "framer-motion";
-import { Github, ExternalLink, Cpu, Database } from "lucide-react";
 
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
@@ -15,7 +18,7 @@ export default function Home() {
     const fetchProjects = async () => {
       const { data, error } = await supabase.from('projects').select('*');
       if (data) setProjects(data);
-      if (error) console.error(error);
+      if (error) console.error("Error fetching projects:", error);
     };
     fetchProjects();
   }, []);
@@ -44,7 +47,6 @@ export default function Home() {
                   </span>
                   Available for Hire
                 </div>
-                {/* UPDATE: bg-linear-to-b */}
                 <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-linear-to-b from-white to-white/60 mb-6">
                   Building the Future with <br /> 
                   <span className="text-purple-500">Code & AI</span>
@@ -73,20 +75,28 @@ export default function Home() {
 
               {/* Featured Project */}
               <GlassCard className="md:col-span-2 relative group min-h-[300px]">
-                {/* UPDATE: bg-linear-to-br */}
                 <div className="absolute inset-0 bg-linear-to-br from-purple-600/20 to-blue-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <h3 className="text-2xl font-bold mb-4 relative z-10">Featured Projects</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10">
                   {projects.map((project) => (
                     <div key={project.id} className="bg-black/40 p-4 rounded-xl border border-white/5 hover:border-purple-500/30 transition-colors">
                       <div className="h-32 w-full relative mb-3 rounded-lg overflow-hidden">
+                        {/* Placeholder atau Image bisa ditambahkan di sini */}
                         <div className="absolute inset-0 bg-gray-800" /> 
                       </div>
                       <h4 className="font-semibold text-lg">{project.title}</h4>
                       <p className="text-xs text-gray-400 line-clamp-2 mt-1">{project.description}</p>
                       <div className="flex gap-2 mt-3">
-                         <a href={project.repo_url} target="_blank" className="p-2 bg-white/5 rounded-full hover:bg-white/20"><Github size={14}/></a>
-                         <a href={project.demo_url} target="_blank" className="p-2 bg-white/5 rounded-full hover:bg-white/20"><ExternalLink size={14}/></a>
+                         {project.repo_url && (
+                           <a href={project.repo_url} target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 rounded-full hover:bg-white/20">
+                             <Github size={14}/>
+                           </a>
+                         )}
+                         {project.demo_url && (
+                           <a href={project.demo_url} target="_blank" rel="noopener noreferrer" className="p-2 bg-white/5 rounded-full hover:bg-white/20">
+                             <ExternalLink size={14}/>
+                           </a>
+                         )}
                       </div>
                     </div>
                   ))}
@@ -94,7 +104,6 @@ export default function Home() {
               </GlassCard>
 
               {/* Database & Backend Card */}
-              {/* UPDATE: bg-linear-to-br */}
               <GlassCard className="md:col-span-1 bg-linear-to-br from-blue-900/20 to-black border-blue-500/20">
                  <Database className="text-blue-400 mb-4" size={32} />
                  <h3 className="text-xl font-bold mb-2">Backend & AI</h3>
@@ -111,13 +120,11 @@ export default function Home() {
                     <h2 className="text-4xl font-bold text-white">3+</h2>
                     <p className="text-sm text-gray-400">Years Exp</p>
                  </div>
-                 {/* UPDATE: w-px menggantikan w-[1px] */}
                  <div className="h-12 w-px bg-white/10" />
                  <div className="text-center">
                     <h2 className="text-4xl font-bold text-white">20+</h2>
                     <p className="text-sm text-gray-400">Projects</p>
                  </div>
-                 {/* UPDATE: w-px menggantikan w-[1px] */}
                  <div className="h-12 w-px bg-white/10" />
                  <div className="text-center">
                     <h2 className="text-4xl font-bold text-white">100%</h2>
