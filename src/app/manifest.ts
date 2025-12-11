@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
  
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Portofolio AI Developer',
+    name: 'Portfolio - Muhammad Azka Wijasena',
     short_name: 'Portofolio',
     description: 'Fullstack Developer & AI Engineer Portofolio',
     start_url: '/',
