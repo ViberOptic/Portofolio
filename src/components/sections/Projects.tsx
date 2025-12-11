@@ -46,7 +46,6 @@ export default function ProjectsPage() {
     }
   };
 
-  // Variabel animasi
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -61,17 +60,20 @@ export default function ProjectsPage() {
   };
 
   return (
-    <section id="projects" className="py-20 scroll-mt-20">
+    // Tambahkan padding responsif (py-16 untuk mobile, py-24 untuk desktop)
+    <section id="projects" className="py-16 md:py-24 scroll-mt-20">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-2 text-purple-400">
+        {/* --- HEADER SECTION PERBAIKAN --- */}
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 md:mb-12 gap-6 md:gap-4">
+          
+          {/* Text Container: Center di mobile, Left di desktop */}
+          <div className="text-center md:text-left">
+            <div className="flex items-center justify-center md:justify-start gap-2 mb-2 text-purple-400">
               <Sparkles size={18} />
               <span className="text-sm font-medium tracking-wider uppercase">My Portfolio</span>
             </div>
@@ -80,12 +82,14 @@ export default function ProjectsPage() {
             </h3>
           </div>
           
+          {/* Badge Pagination */}
           {projects.length > 0 && (
-            <span className="text-sm text-gray-500 font-mono bg-white/5 px-4 py-2 rounded-full border border-white/5">
+            <span className="text-xs md:text-sm text-gray-500 font-mono bg-white/5 px-4 py-2 rounded-full border border-white/5">
               {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, projects.length)} of {projects.length}
             </span>
           )}
         </div>
+        {/* -------------------------------- */}
 
         {/* Content Section */}
         {loading ? (
@@ -95,10 +99,10 @@ export default function ProjectsPage() {
         ) : (
           <>
             <motion.div 
-              key={currentPage} // PERBAIKAN UTAMA: Reset animasi saat page berubah
+              key={currentPage} 
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               initial="hidden"
-              animate="visible" // Menggunakan animate agar trigger ulang saat key berubah
+              animate="visible" 
               variants={containerVariants}
             >
               {currentProjects.map((project) => (
