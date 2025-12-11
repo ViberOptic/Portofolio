@@ -29,7 +29,7 @@ export default function HomePage() {
           </h1>
           
           <p className="text-lg text-gray-400 max-w-xl leading-relaxed mx-auto md:mx-0 mb-6">
-            A passionate Engineering Student and Developer building intelligent systems and web applications.
+            Bridging the gap between modern software engineering and artificial intelligence to build smarter digital experiences.
           </p>
 
           {/* Info Block */}

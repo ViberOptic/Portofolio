@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio - Muhammad Azka Wijasena",
+  title: "Portofolio - Muhammad Azka Wijasena",
   description: "Fullstack Developer & AI Engineer Portofolio",
 };
 
