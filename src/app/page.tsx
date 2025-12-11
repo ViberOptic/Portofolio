@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar";
 import SplashScreen from "@/components/shared/SplashScreen";
 
 // Import Sections

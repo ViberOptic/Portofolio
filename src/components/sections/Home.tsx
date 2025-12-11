@@ -1,6 +1,7 @@
 'use client'
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { MapPin, GraduationCap, Calendar, User } from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -22,16 +23,36 @@ export default function HomePage() {
             Available for Hire
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-linear-to-b from-white to-white/60 mb-6 leading-tight">
-            Building the Future with <br /> 
-            <span className="text-purple-500">Code & AI</span>
+          <h1 className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-linear-to-b from-white to-white/60 mb-4 leading-tight">
+            Hi, I'm <br /> 
+            <span className="text-purple-500">Muhammad Azka Wijasena</span>
           </h1>
           
-          <p className="text-lg text-gray-400 max-w-xl leading-relaxed mx-auto md:mx-0">
-            Hi, I'm a Fullstack Developer & AI Engineer. I craft high-performance web applications and intelligent systems using modern technologies.
+          <p className="text-lg text-gray-400 max-w-xl leading-relaxed mx-auto md:mx-0 mb-6">
+            A passionate Engineering Student and Developer building intelligent systems and web applications.
           </p>
 
-          <div className="mt-8 flex gap-4 justify-center md:justify-start">
+          {/* Info Block */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg mx-auto md:mx-0 mb-8 text-sm text-gray-300">
+            <div className="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+              <GraduationCap size={16} className="text-purple-400" />
+              <span>Teknik Komputer, UNDIP</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+              <MapPin size={16} className="text-purple-400" />
+              <span>Semarang, Indonesia</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+              <Calendar size={16} className="text-purple-400" />
+              <span>06 Agustus 2005</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+               <User size={16} className="text-purple-400" />
+               <span>Fullstack & AI Enthusiast</span>
+            </div>
+          </div>
+
+          <div className="flex gap-4 justify-center md:justify-start">
             <a href="#projects" className="px-6 py-3 rounded-full bg-white text-black font-semibold hover:bg-gray-200 transition-colors">
               View Work
             </a>
@@ -55,7 +76,7 @@ export default function HomePage() {
             <div className="relative w-full h-full rounded-full overflow-hidden">
               <Image
                 src="/profile.png"
-                alt="Profile Picture"
+                alt="Muhammad Azka Wijasena"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

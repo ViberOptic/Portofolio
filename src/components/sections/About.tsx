@@ -16,7 +16,7 @@ export default function AboutPages() {
             <p className="text-gray-400 text-sm">Tools I use to build magic.</p>
           </div>
           <div className="flex flex-wrap gap-2 mt-4">
-            {['Next.js', 'React', 'TypeScript', 'Tailwind', 'Python', 'PyTorch', 'Supabase'].map(tag => (
+            {['Next.js', 'React.js', 'TypeScript', 'JavaScript', 'Tailwind', 'Python', 'Supabase', 'Docker', 'YOLO'].map(tag => (
               <span key={tag} className="px-3 py-1 bg-white/5 rounded-md text-xs border border-white/5 text-gray-300">
                 {tag}
               </span>
@@ -39,7 +39,7 @@ export default function AboutPages() {
         <GlassCard className="md:col-span-1 flex flex-col justify-center items-center text-center">
             <div className="grid grid-cols-2 gap-8 w-full">
               <div>
-                <h2 className="text-4xl font-bold text-white">3+</h2>
+                <h2 className="text-4xl font-bold text-white">2+</h2>
                 <p className="text-xs text-gray-400 uppercase tracking-wider mt-1">Years Exp</p>
               </div>
               <div>
