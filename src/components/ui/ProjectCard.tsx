@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Github, ExternalLink } from "lucide-react";
 import { Project } from "@/types";
+import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {
   project: Project;
@@ -9,69 +10,82 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <div className="group/card relative flex flex-col justify-between overflow-hidden rounded-xl border border-white/5 bg-black/40 p-4 transition-all duration-300 hover:border-purple-500/30 hover:bg-white/5 hover:shadow-lg hover:shadow-purple-500/10">
+    <div className="group relative flex flex-col h-full overflow-hidden rounded-2xl border border-white/10 bg-black/40 backdrop-blur-sm transition-all duration-300 hover:border-purple-500/30 hover:shadow-2xl hover:shadow-purple-500/20">
       
-      {/* Bagian Gambar */}
-      <div className="relative mb-3 h-32 w-full overflow-hidden rounded-lg bg-gray-800">
+      {/* Image Container with Zoom Effect */}
+      <div className="relative h-48 w-full overflow-hidden">
         {project.image_url ? (
           <Image
             src={project.image_url}
             alt={project.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover/card:scale-110"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-110"
+            sizes="(max-width: 768px) 100vw, 33vw"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gray-900 text-gray-700">
-            <span className="text-xs">No Image</span>
+          <div className="flex h-full w-full items-center justify-center bg-gray-900/50">
+            <span className="text-sm text-gray-500">No Preview</span>
           </div>
         )}
+        {/* Overlay Gradient on Image */}
+        {/* PERBAIKAN: bg-gradient-to-t -> bg-linear-to-t */}
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
       </div>
 
-      {/* Bagian Konten */}
-      <div>
-        <h4 className="text-lg font-semibold text-white group-hover/card:text-purple-400 transition-colors">
-          {project.title}
-        </h4>
-        <p className="mt-1 line-clamp-2 text-xs text-gray-400">
+      {/* Content */}
+      <div className="flex flex-1 flex-col p-5">
+        <div className="flex items-start justify-between">
+          <h4 className="text-xl font-bold text-white group-hover:text-purple-400 transition-colors">
+            {project.title}
+          </h4>
+        </div>
+        
+        {/* PERBAIKAN: flex-grow -> grow */}
+        <p className="mt-2 text-sm text-gray-400 line-clamp-2 grow">
           {project.description}
         </p>
-      </div>
 
-      {/* Bagian Tags */}
-      <div className="mt-3 flex flex-wrap gap-1.5">
-        {project.tags?.map((tag, index) => (
-          <span 
-            key={index} 
-            className="rounded-md border border-white/5 bg-white/5 px-2 py-0.5 text-[10px] text-gray-300"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
+        {/* Tags */}
+        <div className="mt-4 flex flex-wrap gap-2">
+          {project.tags?.slice(0, 3).map((tag, index) => (
+            <span 
+              key={index} 
+              className="text-[10px] uppercase tracking-wider px-2 py-1 rounded-md bg-white/5 text-gray-300 border border-white/5"
+            >
+              {tag}
+            </span>
+          ))}
+          {project.tags && project.tags.length > 3 && (
+             <span className="text-[10px] px-2 py-1 text-gray-500">+{project.tags.length - 3}</span>
+          )}
+        </div>
 
-      {/* Bagian Tombol Aksi */}
-      <div className="mt-4 flex gap-3">
-        {project.repo_url && (
-          <Link
-            href={project.repo_url}
-            target="_blank"
-            className="flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 text-[10px] text-gray-300 transition-colors hover:bg-white/20 hover:text-white"
-          >
-            <Github size={12} />
-            <span>Code</span>
-          </Link>
-        )}
-        {project.demo_url && (
-          <Link
-            href={project.demo_url}
-            target="_blank"
-            className="flex items-center gap-1.5 rounded-full bg-purple-500/10 px-3 py-1.5 text-[10px] text-purple-400 transition-colors hover:bg-purple-500/20 hover:text-purple-300 border border-purple-500/20"
-          >
-            <ExternalLink size={12} />
-            <span>Demo</span>
-          </Link>
-        )}
+        {/* Actions - Always visible but enhanced hover */}
+        <div className="mt-6 flex items-center gap-3 pt-4 border-t border-white/5">
+          {project.repo_url && (
+            <Link
+              href={project.repo_url}
+              target="_blank"
+              className="flex items-center gap-2 text-xs font-medium text-gray-400 hover:text-white transition-colors"
+            >
+              <Github size={14} />
+              Code
+            </Link>
+          )}
+          {project.demo_url && (
+            <Link
+              href={project.demo_url}
+              target="_blank"
+              className={cn(
+                "ml-auto flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium transition-all",
+                "bg-purple-600 text-white hover:bg-purple-500 shadow-lg shadow-purple-900/20"
+              )}
+            >
+              Live Demo
+              <ExternalLink size={12} />
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );

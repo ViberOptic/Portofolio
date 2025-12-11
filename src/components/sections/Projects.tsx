@@ -1,16 +1,14 @@
 'use client'
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { Project } from "@/types";
-import GlassCard from "@/components/ui/GlassCard";
 import ProjectCard from "@/components/ui/ProjectCard";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  
-  // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 3;
 
@@ -24,7 +22,6 @@ export default function ProjectsPage() {
     fetchProjects();
   }, []);
 
-  // Pagination Logic
   const totalPages = Math.ceil(projects.length / ITEMS_PER_PAGE);
   const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
@@ -40,58 +37,96 @@ export default function ProjectsPage() {
 
   return (
     <section id="projects" className="py-20 scroll-mt-20">
-      <GlassCard className="w-full relative group min-h-[500px] flex flex-col">
-        <div className="absolute inset-0 bg-linear-to-br from-purple-600/20 to-blue-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-        
-        <div className="flex justify-between items-end mb-6 relative z-10">
-          <h3 className="text-2xl font-bold text-white">Featured Projects</h3>
-          <span className="text-xs text-gray-500">
-            Showing {currentProjects.length > 0 ? indexOfFirstItem + 1 : 0}-{Math.min(indexOfLastItem, projects.length)} of {projects.length}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+          <div>
+            <div className="flex items-center gap-2 mb-2 text-purple-400">
+              <Sparkles size={18} />
+              <span className="text-sm font-medium tracking-wider uppercase">My Portfolio</span>
+            </div>
+            <h3 className="text-3xl md:text-4xl font-bold text-white">
+              Featured <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-purple-500">Projects</span>
+            </h3>
+          </div>
+          
+          <span className="text-sm text-gray-500 font-mono bg-white/5 px-4 py-2 rounded-full border border-white/5">
+            {currentProjects.length > 0 ? indexOfFirstItem + 1 : 0}-{Math.min(indexOfLastItem, projects.length)} of {projects.length}
           </span>
         </div>
 
         {loading ? (
-          <div className="text-center py-20 text-gray-500 grow">Loading projects...</div>
+          <div className="flex justify-center py-20">
+            <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-purple-500"></div>
+          </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10 grow">
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={{
+                visible: { transition: { staggerChildren: 0.15 } }
+              }}
+            >
               {currentProjects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
+                <motion.div 
+                  key={project.id}
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: { opacity: 1, y: 0 }
+                  }}
+                >
+                  <ProjectCard project={project} />
+                </motion.div>
               ))}
+              
               {currentProjects.length === 0 && (
-                <div className="col-span-full text-center text-gray-500 py-10">
-                  No projects found.
+                <div className="col-span-full text-center text-gray-500 py-20 bg-white/5 rounded-2xl border border-white/5 border-dashed">
+                  No projects found yet.
                 </div>
               )}
-            </div>
+            </motion.div>
 
             {/* Pagination Controls */}
             {projects.length > ITEMS_PER_PAGE && (
-              <div className="flex justify-center items-center gap-4 mt-8 relative z-10 pt-4 border-t border-white/5">
+              <div className="flex justify-center items-center gap-6 mt-12">
                 <button 
                   onClick={handlePrevPage}
                   disabled={currentPage === 1}
-                  className="p-2 rounded-full hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-white"
+                  className="group p-3 rounded-full bg-white/5 border border-white/10 hover:bg-purple-500 hover:border-purple-500 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 backdrop-blur-sm"
                 >
-                  <ChevronLeft size={20} />
+                  <ChevronLeft size={20} className="group-hover:-translate-x-0.5 transition-transform" />
                 </button>
                 
-                <span className="text-sm text-gray-400 font-mono">
-                  {currentPage} of {totalPages}
-                </span>
+                <div className="flex gap-2">
+                  {Array.from({ length: totalPages }).map((_, i) => (
+                    <div 
+                      key={i} 
+                      className={`h-2 w-2 rounded-full transition-all duration-300 ${
+                        currentPage === i + 1 ? "bg-purple-500 w-6" : "bg-gray-600"
+                      }`}
+                    />
+                  ))}
+                </div>
 
                 <button 
                   onClick={handleNextPage}
                   disabled={currentPage === totalPages}
-                  className="p-2 rounded-full hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-white"
+                  className="group p-3 rounded-full bg-white/5 border border-white/10 hover:bg-blue-500 hover:border-blue-500 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 backdrop-blur-sm"
                 >
-                  <ChevronRight size={20} />
+                  <ChevronRight size={20} className="group-hover:translate-x-0.5 transition-transform" />
                 </button>
               </div>
             )}
           </>
         )}
-      </GlassCard>
+      </motion.div>
     </section>
   );
 }
