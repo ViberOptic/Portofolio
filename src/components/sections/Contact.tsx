@@ -1,6 +1,6 @@
 'use client'
 import { motion } from "framer-motion";
-import { Mail, Linkedin, Instagram, ArrowUpRight, Send } from "lucide-react";
+import { Mail, Linkedin, Instagram, Send } from "lucide-react";
 import GlassCard from "@/components/ui/GlassCard";
 import { cn } from "@/lib/utils";
 
@@ -78,15 +78,8 @@ export default function ContactPages() {
                   !item.disabled && item.groupColor
                 )}>
                   
-                  {/* Absolute Arrow Icon */}
-                  {!item.disabled && (
-                    <div className="absolute top-5 right-5 text-gray-600 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
-                      <ArrowUpRight size={20} />
-                    </div>
-                  )}
-
-                  {/* Icon Container */}
-                  <div className="w-16 h-16 flex items-center justify-center rounded-full bg-white/5 border border-white/10 mb-6 transition-transform duration-500 group-hover:scale-110">
+                  {/* Icon Container (Tetap di tengah dengan mx-auto) */}
+                  <div className="w-16 h-16 flex items-center justify-center rounded-full bg-white/5 border border-white/10 mb-6 transition-transform duration-500 group-hover:scale-110 mx-auto">
                     <item.icon className={cn("w-7 h-7 transition-colors", item.iconColor)} />
                   </div>
 
@@ -96,7 +89,6 @@ export default function ContactPages() {
                       {item.label}
                     </h3>
                     
-                    {/* PERBAIKAN: Mengganti break-words menjadi break-all */}
                     <p className="text-sm text-gray-400 font-medium font-mono group-hover:text-gray-300 transition-colors break-all w-full px-2">
                       {item.value}
                     </p>
